@@ -10,6 +10,7 @@ export interface Template {
 	specificNoteName?: string;
 	dailyNoteFormat?: string;
 	vault?: string;
+	prompt?: string;
 }
 
 export interface Property {

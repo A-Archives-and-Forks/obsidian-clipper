@@ -1,15 +1,19 @@
 import browser from './browser-polyfill';
 
 export interface GeneralSettings {
-	showMoreActionsButton: boolean;
 	vaults: string[];
+	showMoreActionsButton: boolean;
 	betaFeatures: boolean;
+	openaiApiKey?: string;
+	openaiModel?: string;
 }
 
 export let generalSettings: GeneralSettings = {
-	showMoreActionsButton: true,
 	vaults: [],
-	betaFeatures: false
+	showMoreActionsButton: false,
+	betaFeatures: false,
+	openaiApiKey: '',
+	openaiModel: 'gpt-3.5-turbo'
 };
 
 export function setLocalStorage(key: string, value: any): Promise<void> {
@@ -33,13 +37,14 @@ export async function loadGeneralSettings(): Promise<GeneralSettings> {
 }
 
 export async function saveGeneralSettings(settings?: Partial<GeneralSettings>): Promise<void> {
-	generalSettings = { ...generalSettings, ...settings };
-	
-	await browser.storage.sync.set({ 
-		general_settings: {
-			showMoreActionsButton: generalSettings.showMoreActionsButton,
-			betaFeatures: generalSettings.betaFeatures
-		},
-		vaults: generalSettings.vaults 
+	if (settings) {
+		generalSettings = { ...generalSettings, ...settings };
+	}
+	await browser.storage.sync.set({
+		vaults: generalSettings.vaults,
+		showMoreActionsButton: generalSettings.showMoreActionsButton,
+		betaFeatures: generalSettings.betaFeatures,
+		openaiApiKey: generalSettings.openaiApiKey,
+		openaiModel: generalSettings.openaiModel
 	});
 }
