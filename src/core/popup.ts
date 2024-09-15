@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 			const templatePromptTextarea = document.getElementById('template-prompt') as HTMLTextAreaElement;
 
 			if (template && template.prompt) {
-				if (llmContainer) llmContainer.style.display = 'block';
+				if (llmContainer) llmContainer.style.display = 'flex';
 				if (templatePromptTextarea) {
 					let promptToDisplay = await replaceVariables(tabId, template.prompt, variables, currentUrl);
 					templatePromptTextarea.value = promptToDisplay;
