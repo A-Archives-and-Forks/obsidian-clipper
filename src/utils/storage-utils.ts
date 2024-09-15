@@ -25,12 +25,14 @@ export function getLocalStorage(key: string): Promise<any> {
 }
 
 export async function loadGeneralSettings(): Promise<GeneralSettings> {
-	const data = await browser.storage.sync.get(['general_settings', 'vaults']);
+	const data = await browser.storage.sync.get(['general_settings', 'vaults', 'openaiApiKey', 'openaiModel']);
 
 	generalSettings = {
 		showMoreActionsButton: data.general_settings?.showMoreActionsButton ?? true,
 		vaults: data.vaults || [],
-		betaFeatures: data.general_settings?.betaFeatures ?? false
+		betaFeatures: data.general_settings?.betaFeatures ?? false,
+		openaiApiKey: data.openaiApiKey || '',
+		openaiModel: data.openaiModel || 'gpt-3.5-turbo'
 	};
 	
 	return generalSettings;

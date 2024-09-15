@@ -105,7 +105,8 @@ export function showTemplateEditor(template: Template | null): void {
 			path: 'Clippings',
 			noteContentFormat: '{{content}}',
 			properties: [],
-			triggers: []
+			triggers: [],
+			prompt: ''
 		};
 		templates.unshift(editingTemplate);
 		setEditingTemplateIndex(0);
@@ -147,6 +148,9 @@ export function showTemplateEditor(template: Template | null): void {
 
 	const noteContentFormat = document.getElementById('note-content-format') as HTMLTextAreaElement;
 	if (noteContentFormat) noteContentFormat.value = editingTemplate.noteContentFormat || '';
+
+	const promptTextarea = document.getElementById('template-prompt') as HTMLTextAreaElement;
+	if (promptTextarea) promptTextarea.value = editingTemplate.prompt || '';
 
 	updateBehaviorFields();
 
@@ -386,6 +390,9 @@ export function updateTemplateFromForm(): void {
 
 	const noteContentFormat = document.getElementById('note-content-format') as HTMLTextAreaElement;
 	if (noteContentFormat) template.noteContentFormat = noteContentFormat.value;
+
+	const promptTextarea = document.getElementById('template-prompt') as HTMLTextAreaElement;
+	if (promptTextarea) template.prompt = promptTextarea.value;
 
 	const propertyElements = document.querySelectorAll('#template-properties .property-editor');
 	template.properties = Array.from(propertyElements).map(prop => {
