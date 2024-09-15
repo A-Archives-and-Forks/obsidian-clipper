@@ -7,8 +7,19 @@ export const split = (str: string, param?: string): string => {
 	// Remove quotes from the param if present
 	param = param.replace(/^["']|["']$/g, '');
 
-	// If param is a single character, use it directly
-	const separator = param.length === 1 ? param : new RegExp(param);
+	let separator: string | RegExp;
+	if (param.startsWith('/') && param.endsWith('/')) {
+		// It's a regex
+		try {
+			separator = new RegExp(param.slice(1, -1));
+		} catch (error) {
+			console.error(`Invalid regex in split filter: ${param}`, error);
+			return JSON.stringify([str]);
+		}
+	} else {
+		// It's a string
+		separator = param;
+	}
 
 	// Split operation
 	const result = str.split(separator);
