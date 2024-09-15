@@ -242,39 +242,21 @@ document.addEventListener('DOMContentLoaded', async function() {
 			const metadataProperties = document.querySelector('.metadata-properties') as HTMLElement;
 			
 			if (metadataHeader && metadataProperties) {
-				metadataHeader.removeEventListener('click', toggleMetadataProperties);
-				metadataHeader.addEventListener('click', toggleMetadataProperties);
-
-				// Set initial state
-				getLocalStorage('propertiesCollapsed').then((isCollapsed) => {
-					updateMetadataToggleState(isCollapsed);
+				metadataHeader.addEventListener('click', () => {
+					const isCollapsed = metadataProperties.classList.toggle('collapsed');
+					metadataHeader.classList.toggle('collapsed');
+					setLocalStorage('propertiesCollapsed', isCollapsed);
 				});
-			}
-		}
 
-		function toggleMetadataProperties() {
-			const metadataProperties = document.querySelector('.metadata-properties') as HTMLElement;
-			const metadataHeader = document.querySelector('.metadata-properties-header') as HTMLElement;
-			
-			if (metadataProperties && metadataHeader) {
-				const isCollapsed = metadataProperties.classList.toggle('collapsed');
-				metadataHeader.classList.toggle('collapsed');
-				setLocalStorage('propertiesCollapsed', isCollapsed);
-			}
-		}
-
-		function updateMetadataToggleState(isCollapsed: boolean) {
-			const metadataProperties = document.querySelector('.metadata-properties') as HTMLElement;
-			const metadataHeader = document.querySelector('.metadata-properties-header') as HTMLElement;
-			
-			if (metadataProperties && metadataHeader) {
-				if (isCollapsed) {
-					metadataProperties.classList.add('collapsed');
-					metadataHeader.classList.add('collapsed');
-				} else {
-					metadataProperties.classList.remove('collapsed');
-					metadataHeader.classList.remove('collapsed');
-				}
+				getLocalStorage('propertiesCollapsed').then((isCollapsed) => {
+					if (isCollapsed) {
+						metadataProperties.classList.add('collapsed');
+						metadataHeader.classList.add('collapsed');
+					} else {
+						metadataProperties.classList.remove('collapsed');
+						metadataHeader.classList.remove('collapsed');
+					}
+				});
 			}
 		}
 
@@ -291,7 +273,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 							const initializedContent = await initializePageContent(extractedData.content, extractedData.selectedHtml, extractedData.extractedContent, currentTab.url!, extractedData.schemaOrgData, extractedData.fullHtml);
 							if (initializedContent) {
 								await initializeTemplateFields(currentTemplate, initializedContent.currentVariables, initializedContent.noteName, extractedData.schemaOrgData);
-								setupMetadataToggle();
 							} else {
 								logError('Unable to initialize page content.');
 							}
@@ -317,7 +298,6 @@ document.addEventListener('DOMContentLoaded', async function() {
 		}
 
 		function handleNoteNameInput() {
-			noteNameField.value = sanitizeFileName(noteNameField.value);
 			adjustTextareaHeight(noteNameField);
 		}
 
@@ -388,30 +368,22 @@ document.addEventListener('DOMContentLoaded', async function() {
 				templateProperties.appendChild(propertyDiv);
 			}
 
-			const noteNameField = document.getElementById('note-name-field') as HTMLTextAreaElement;
 			if (noteNameField) {
 				let formattedNoteName = await replaceVariables(tabId, template.noteNameFormat, variables, currentUrl);
-				noteNameField.value = sanitizeFileName(formattedNoteName);
-				noteNameField.setAttribute('data-template-value', template.noteNameFormat);
+				noteNameField.value = formattedNoteName;
 				adjustTextareaHeight(noteNameField);
 			}
 
 			const pathField = document.getElementById('path-name-field') as HTMLInputElement;
-			if (pathField) {
-				let formattedPath = await replaceVariables(tabId, template.path, variables, currentUrl);
-				pathField.value = formattedPath;
-				pathField.setAttribute('data-template-value', template.path);
-			}
+			if (pathField) pathField.value = template.path;
 
 			const noteContentField = document.getElementById('note-content-field') as HTMLTextAreaElement;
 			if (noteContentField) {
 				if (template.noteContentFormat) {
 					let content = await replaceVariables(tabId, template.noteContentFormat, variables, currentUrl);
 					noteContentField.value = content;
-					noteContentField.setAttribute('data-template-value', template.noteContentFormat);
 				} else {
 					noteContentField.value = '';
-					noteContentField.setAttribute('data-template-value', '');
 				}
 			}
 
