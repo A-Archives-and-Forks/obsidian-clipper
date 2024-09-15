@@ -13,7 +13,7 @@ export let generalSettings: GeneralSettings = {
 	showMoreActionsButton: false,
 	betaFeatures: false,
 	openaiApiKey: '',
-	openaiModel: 'gpt-3.5-turbo'
+	openaiModel: 'gpt-4o-mini'
 };
 
 export function setLocalStorage(key: string, value: any): Promise<void> {
@@ -32,7 +32,7 @@ export async function loadGeneralSettings(): Promise<GeneralSettings> {
 		vaults: data.vaults || [],
 		betaFeatures: data.general_settings?.betaFeatures ?? false,
 		openaiApiKey: data.openaiApiKey || '',
-		openaiModel: data.openaiModel || 'gpt-3.5-turbo'
+		openaiModel: data.openaiModel || 'gpt-4o-mini'
 	};
 	
 	return generalSettings;
