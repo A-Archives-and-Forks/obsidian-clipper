@@ -162,33 +162,6 @@ async function handleClip() {
 	}
 
 	try {
-		const promptVariables = collectPromptVariables(currentTemplate);
-
-		if (promptVariables.length > 0 || currentTemplate.prompt) {
-			const { userResponse, promptResponses } = await sendToLLM(currentTemplate.prompt || '', noteContent, promptVariables);
-
-			// Update the note content field with the user prompt response
-			if (currentTemplate.prompt) {
-				noteContentField.value = `${userResponse}\n\n${noteContentField.value}`;
-			}
-
-			updateFieldsWithLLMResponses(promptVariables, promptResponses);
-		}
-
-		// Regenerate file content with updated fields
-		const updatedProperties = Array.from(document.querySelectorAll('.metadata-property input')).map(input => ({
-			name: input.id,
-			value: (input as HTMLInputElement).value,
-			type: input.getAttribute('data-type') || 'text'
-		}));
-
-		if (currentTemplate.behavior === 'create') {
-			const frontmatter = await generateFrontmatter(updatedProperties as Property[]);
-			fileContent = frontmatter + noteContentField.value;
-		} else {
-			fileContent = noteContentField.value;
-		}
-
 		await saveToObsidian(fileContent, noteName, path, selectedVault, currentTemplate.behavior, currentTemplate.specificNoteName, currentTemplate.dailyNoteFormat);
 		setTimeout(() => window.close(), 50);
 	} catch (error) {
