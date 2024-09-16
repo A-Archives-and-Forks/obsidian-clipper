@@ -94,7 +94,6 @@ export function initializeGeneralSettings(): void {
 		initializeKeyboardShortcuts();
 		initializeToggles();
 		setShortcutInstructions();
-		initializeLLMSettings();
 		initializeAutoSave();
 	});
 }
@@ -107,14 +106,10 @@ function initializeAutoSave(): void {
 }
 
 function saveGeneralSettingsFromForm(): void {
-	const apiKeyInput = document.getElementById('openai-api-key') as HTMLInputElement;
-	const modelSelect = document.getElementById('default-model') as HTMLSelectElement;
 	const showMoreActionsToggle = document.getElementById('show-more-actions-toggle') as HTMLInputElement;
 	const betaFeaturesToggle = document.getElementById('beta-features-toggle') as HTMLInputElement;
 
 	const updatedSettings = {
-		openaiApiKey: apiKeyInput.value,
-		openaiModel: modelSelect.value,
 		showMoreActionsButton: showMoreActionsToggle.checked,
 		betaFeatures: betaFeaturesToggle.checked
 	};
