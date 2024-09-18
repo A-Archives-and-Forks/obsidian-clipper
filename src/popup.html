@@ -30,6 +30,12 @@
 				<textarea id="note-content-field" rows="4" placeholder="Notes about this page..."></textarea>
 			</div>
 			<div class="clipper-footer">
+				<div class="vault-path-container">
+					<div id="vault-container" style="display: none;">
+						<select id="vault-select"></select>
+					</div>
+					<input id="path-name-field" type="text"/>
+				</div>
 				<div id="interpreter" style="display: none;">
 					<textarea id="prompt-context" rows="3"></textarea>
 					<div class="interpreter-controls">
@@ -38,12 +44,6 @@
 						<span id="llm-timer" style="display: none;"></span>
 					</div>
 					<div id="interpreter-error" style="display: none;"></div>
-				</div>
-				<div class="vault-path-container">
-					<div id="vault-container" style="display: none;">
-						<select id="vault-select"></select>
-					</div>
-					<input id="path-name-field" type="text"/>
 				</div>
 				<button id="clip-button" class="mod-cta">Add to Obsidian</button>
 			</div>
