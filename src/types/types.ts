@@ -10,7 +10,7 @@ export interface Template {
 	specificNoteName?: string;
 	dailyNoteFormat?: string;
 	vault?: string;
-	prompt: string; // Changed from optional to required
+	context?: string;
 }
 
 export interface Property {
